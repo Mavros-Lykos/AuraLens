@@ -1,14 +1,32 @@
 let hoveredImageSrc = null;
 
+// Find the image source from an element (supports <img> and CSS background-image)
+function getImageSrc(el) {
+  if (!el) return null;
+  if (el.tagName && el.tagName.toLowerCase() === 'img') {
+    return el.src || el.currentSrc || null;
+  }
+  // Check for CSS background-image
+  const bg = window.getComputedStyle(el).backgroundImage;
+  if (bg && bg !== 'none') {
+    const match = bg.match(/url\(["']?(.*?)["']?\)/);
+    if (match && match[1]) return match[1];
+  }
+  return null;
+}
+
 // Track mouse movement to identify hovered images
 document.addEventListener('mouseover', (event) => {
-  if (event.target.tagName && event.target.tagName.toLowerCase() === 'img') {
-    hoveredImageSrc = event.target.src || event.target.currentSrc;
+  const src = getImageSrc(event.target);
+  if (src) {
+    hoveredImageSrc = src;
   }
 }, true);
 
 document.addEventListener('mouseout', (event) => {
-  if (event.target.tagName && event.target.tagName.toLowerCase() === 'img') {
+  // Only clear if the mouse is leaving to a non-image element
+  const relatedSrc = getImageSrc(event.relatedTarget);
+  if (!relatedSrc) {
     hoveredImageSrc = null;
   }
 }, true);
