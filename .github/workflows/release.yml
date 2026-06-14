@@ -39,6 +39,7 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: "v${{ env.VERSION }}"
           files: "auralens-v${{ env.VERSION }}.zip"
           name: "Release v${{ env.VERSION }}"
           draft: false
