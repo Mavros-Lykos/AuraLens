@@ -12,22 +12,28 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
   }
 });
 
-chrome.commands.onCommand.addListener((command, tab) => {
+chrome.commands.onCommand.addListener(async (command) => {
+  console.log("Command received:", command);
   if (command === "describe-image") {
+    // In Manifest V3, we must query for the active tab ourselves
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    if (!tab) {
+      chrome.tts.speak("AuraLens could not identify the current tab.");
+      return;
+    }
+
     // Send message to content script to get the currently hovered image
-    chrome.tabs.sendMessage(tab.id, { action: "getHoveredImage" }, (response) => {
-      if (chrome.runtime.lastError) {
-        console.error("Error communicating with content script:", chrome.runtime.lastError);
-        chrome.tts.speak("AuraLens could not detect an image here. Please refresh the page or try right-clicking.");
-        return;
-      }
-      
+    try {
+      const response = await chrome.tabs.sendMessage(tab.id, { action: "getHoveredImage" });
       if (response && response.srcUrl) {
         processImage(response.srcUrl, tab.id);
       } else {
         chrome.tts.speak("No image is currently selected. Hover your mouse over an image and try again.");
       }
-    });
+    } catch (err) {
+      console.error("Error communicating with content script:", err);
+      chrome.tts.speak("AuraLens could not detect an image here. Please refresh the page or try right-clicking.");
+    }
   }
 });
 
