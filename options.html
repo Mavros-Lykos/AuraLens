@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>AuraLens Options</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1><span class="emoji">🪄</span> AuraLens Settings</h1>
+    </div>
+    
+    <div class="card">
+      <h2>Google Gemini API Key</h2>
+      <p class="description">AuraLens uses the free Gemini 1.5 Flash Vision API to analyze images. You need to provide your own API key to use this extension.</p>
+      
+      <div class="input-group">
+        <label for="apiKey">API Key:</label>
+        <input type="password" id="apiKey" placeholder="AIzaSy...">
+      </div>
+      
+      <div class="actions">
+        <button id="saveBtn" class="btn btn-primary">Save Key</button>
+      </div>
+      
+      <div id="status" class="status-msg"></div>
+      
+      <div class="help-section">
+        <h3>How to get a free API key:</h3>
+        <ol>
+          <li>Go to <a href="https://aistudio.google.com/app/apikey" target="_blank">Google AI Studio</a>.</li>
+          <li>Sign in with your Google account.</li>
+          <li>Click "Create API key" and copy it.</li>
+          <li>Paste the key above and click Save.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script src="options.js"></script>
+</body>
+</html>
