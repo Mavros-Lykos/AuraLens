@@ -43,7 +43,7 @@ You must provide a free Google Gemini API key. You can obtain one from [Google A
 
 Once configured, you can trigger AuraLens in two ways:
 1. **Context Menu:** Right-click any image and select `AuraLens: Describe Image`.
-2. **Keyboard Shortcut:** Hover over an image and press `Ctrl+Shift+V` (Windows/Linux) or `Cmd+Shift+V` (macOS).
+2. **Keyboard Shortcut:** Hover over an image and press `Ctrl+Shift+U` (Windows/Linux) or `Cmd+Shift+U` (macOS).
 
 ## Contributing
 
