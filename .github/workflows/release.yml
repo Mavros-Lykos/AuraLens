@@ -1,0 +1,35 @@
+name: Release Chrome Extension
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Get Version from Tag
+        id: get_version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
+
+      - name: Zip Extension Files
+        run: |
+          # Zip the current directory contents directly to keep manifest at root
+          # Excluding git, github folders, markdown documentation, and other zips
+          zip -r "auralens-v${{ env.VERSION }}.zip" . -x "*.git*" -x ".github/*" -x "*.md" -x "LICENSE" -x "*.zip"
+        
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: "auralens-v${{ env.VERSION }}.zip"
+          name: "Release v${{ env.VERSION }}"
+          draft: false
+          prerelease: false
+          generate_release_notes: true
