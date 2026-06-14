@@ -1,0 +1,40 @@
+{
+  "manifest_version": 3,
+  "name": "AuraLens",
+  "version": "1.0",
+  "description": "Rich, emotional, and accessible image descriptions on demand using AI.",
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "AuraLens"
+  },
+  "options_page": "options.html",
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "contextMenus",
+    "storage",
+    "activeTab",
+    "scripting",
+    "tts"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "commands": {
+    "describe-image": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+V",
+        "mac": "Command+Shift+V"
+      },
+      "description": "Describe the currently hovered image"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_start"
+    }
+  ]
+}
